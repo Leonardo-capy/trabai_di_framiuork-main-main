@@ -1,121 +1,89 @@
-# trabai_di_framiuork
 
-Aplicação simples para cadastro e listagem de produtos usando **Fastify**, **TypeScript**, **MySQL** e um frontend com HTML.
+# 🛒 Sistema de Cadastro de Produtos e Pessoas
 
-## 🚀 Tecnologias utilizadas
+Este projeto é um sistema web simples construído com **HTML**, **CSS**, **JavaScript (Vanilla)**, **Node.js (Fastify)** e **MySQL**, com o objetivo de cadastrar e buscar **produtos** e **pessoas**.
 
-- Fastify
-- TypeScript
-- MySQL
-- Node.js
-- HTML + JavaScript (fetch)
-- @fastify/static (para servir os arquivos HTML)
-- @fastify/cors (para habilitar CORS)
+## 🔧 Tecnologias Utilizadas
 
-## 📂 Estrutura do Projeto
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Backend**: Node.js com Fastify
+- **Banco de Dados**: MySQL
+- **Linguagem de Script**: TypeScript (compilado para JS)
+- **Ferramentas**: tsx, typescript, mysql2
+
+## 📁 Estrutura do Projeto
 
 ```
-├── index.ts                # Código principal do servidor Fastify
-├── main.sql                # Script para criar a tabela no banco de dados
-├── public/                 # Frontend estático servido pelo Fastify
-│   ├── index.html          # Página de cadastro de produtos
-│   └── produtos.html       # Página de listagem de produtos
-├── package.json
-├── package-lock.json
-├── .gitignore
-└── README.md
+.
+├── index.html           # Página principal de cadastro de produtos
+├── buscar.html          # Página para busca de produtos por nome
+├── produtos.html        # Página para visualizar todos os produtos cadastrados
+├── pessoa.html          # Página para cadastro de pessoas
+├── style.css            # Estilo adicional global (pouco utilizado)
+├── index.ts             # Servidor Node.js com Fastify
+├── main.sql             # Script para criação das tabelas no MySQL
+├── package.json         # Dependências e scripts do projeto
 ```
 
-## ⚙️ Como rodar o projeto
+## ⚙️ Instalação e Execução
 
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/Leonardo-capy/trabai_di_framiuork-main.git
-cd trabai_di_framiuork-main
+git clone https://github.com/Leonardo-capy/trabai_di_framiuorks-main.git
+cd trabai_di_framiuorks-main
 ```
 
 ### 2. Instale as dependências
 
 ```bash
-npm i
+npm install
 ```
 
-### 3. Configure o banco de dados MySQL
+### 3. Configure o banco de dados
 
-Crie um banco e execute o script `main.sql` para gerar a tabela:
+- Crie um banco de dados MySQL.
+- Execute o script `main.sql` para criar as tabelas necessárias.
 
-```sql
-CREATE DATABASE trabalho_catalogo;
+### 4. Execute o servidor
 
-USE trabalho_catalogo;
+Modo desenvolvimento (com recarregamento automático):
 
-
-CREATE TABLE IF NOT EXISTS produto (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(100) NOT NULL,
-  preco DECIMAL(10,2) NOT NULL,
-  vendedor VARCHAR(100) NOT NULL
-);
-
-
-CREATE TABLE usuario (
-	id_usuario INT PRIMARY KEY NOT NULL,
-    nome VARCHAR(100) NOT NULL,
-    senha VARCHAR(100) NOT NULL,
-    CHECK (CHAR_LENGTH(senha)  >=8 ),
-    email VARCHAR(255),
-    CHECK (email LIKE '%@%')
-);
-
-
-
--- Execute o conteúdo de main.sql aqui
-```
-
-Altere o host, user, password e database no seu `index.ts` para refletir os dados corretos da conexão MySQL.
-
-### 4. Inicie o servidor
-
-Para desenvolvimento (com `tsx`):
 ```bash
 npm run dev
 ```
 
-Para produção (com build TypeScript):
+Modo produção:
+
 ```bash
 npm run build
 npm start
 ```
 
-Se tudo estiver certo, você verá:
-```
-Server listening at http://localhost:8002
-```
+## 🌐 Funcionalidades
 
-## 🌐 URLs para usar
+### Produtos
 
-- [http://localhost:8002/index.html](http://localhost:8002/index.html) – Cadastro de produtos
-- [http://localhost:8002/produtos.html](http://localhost:8002/produtos.html) – Listagem dos produtos
+- ✅ Cadastro de produto (`index.html`)
+- 🔍 Busca de produto por nome (`buscar.html`)
+- 📋 Listagem de produtos cadastrados (`produtos.html`)
 
-## 🔁 Rotas da API
+### Pessoas
 
-| Método | Rota       | Descrição                      |
-|--------|------------|--------------------------------|
-| GET    | /produto   | Retorna todos os produtos      |
-| POST   | /produto   | Cadastra um novo produto       |
+- ✅ Cadastro de pessoa com nome, email, senha, telefone e gênero (`pessoa.html`)
+- 📋 Listagem automática de pessoas após cadastro
 
-## ✅ Requisitos
+## 📂 Endpoints da API
 
-- Node.js 18+
-- MySQL instalado e rodando
+- `GET /produto`: Retorna todos os produtos
+- `POST /produto`: Cadastra um novo produto
+- `GET /pessoa`: Retorna todas as pessoas
+- `POST /pessoa`: Cadastra uma nova pessoa
 
-## 🧠 Observações
+## 🖌️ Estilo
 
-- Não abra os arquivos HTML via `file://`. Sempre use `http://localhost:8002/` para garantir que o `fetch()` funcione.
-- Os arquivos HTML estão servidos via `@fastify/static`.
+O estilo segue um padrão **dark mode**, com cores suaves e foco em legibilidade e usabilidade.
 
-## 📝 Licença
+## 📄 Licença
 
-Projeto feito por Leonardo-capy. Livre para uso educacional.
-```
+Este projeto está sob a licença ISC.
