@@ -1,14 +1,14 @@
 
 # Sistema de Cadastro de Produtos e Pessoas
 
-Este projeto é um sistema web simples construído com **HTML**, **CSS**, **JavaScript (Vanilla)**, **Node.js (Fastify)** e **MySQL**, com o objetivo de cadastrar e buscar **produtos** e **pessoas**.
+Projeto desenvolvido para fins de aprendizado e prática de integração entre front-end e back-end, utilizando tecnologias como **HTML**, **CSS**, **JavaScript**, **Node.js** e **MySQL**. O sistema permite o cadastro e a busca de produtos e pessoas.
 
 ## Tecnologias Utilizadas
 
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Node.js com Fastify
+- **Frontend**: HTML, CSS e JavaScript puro
+- **Backend**: Node.js com o framework Fastify
 - **Banco de Dados**: MySQL
-- **Linguagem de Script**: TypeScript (compilado para JS)
+- **Linguagem principal**: TypeScript
 - **Ferramentas**: tsx, typescript, mysql2
 
 ## Estrutura do Projeto
@@ -16,30 +16,29 @@ Este projeto é um sistema web simples construído com **HTML**, **CSS**, **Java
 ```
 .
 ├── public/
-│   ├── index.html         # Página principal de cadastro de produtos
-│   ├── buscar.html        # Página para busca de produtos por nome
-│   ├── produtos.html      # Página para visualizar todos os produtos cadastrados
-│   ├── pessoa.html        # Página para cadastro de pessoas
+│   ├── index.html         # Tela de cadastro de produtos
+│   ├── buscar.html        # Página para buscar produtos
+│   ├── produtos.html      # Exibição dos produtos cadastrados
+│   ├── pessoa.html        # Formulário para cadastro de pessoas
 │   ├── style.css          # Estilo global
-├── index.ts               # Servidor Node.js com Fastify
-├── main.sql               # Script SQL de criação do banco
-├── package.json           # Configuração do projeto Node.js
-├── package-lock.json      # Lockfile do npm
-├── tsconfig.json          # Configuração do TypeScript
+├── index.ts               # Código do servidor (API)
+├── main.sql               # Script de criação das tabelas no banco
+├── package.json           # Informações do projeto e dependências
+├── package-lock.json      # Gerenciamento de versões das dependências
+├── tsconfig.json          # Configurações do TypeScript
 ├── README.md              # Documentação do projeto
-
 ```
 
-## Instalação e Execução
+## Como Rodar o Projeto
 
-### 1. Clone o repositório
+### 1. Clonar o repositório
 
 ```bash
 git clone https://github.com/Leonardo-capy/trabai_di_framiuorks-main.git
 cd trabai_di_framiuorks-main
 ```
 
-### 2. Instale as dependências
+### 2. Instalar as dependências
 
 ```bash
 npm install
@@ -47,15 +46,14 @@ npm install
 ou
 ```bash
 npm i
-``
+```
 
-### 3. Configure o banco de dados
+### 3. Configurar o banco de dados
 
-- Crie um banco de dados MySQL.
-- Execute o script `main.sql` para criar as tabelas necessárias no mysqlworkbench ou algum de sua preferencia
+- Crie um banco MySQL local ou remoto.
+- Importe o arquivo `main.sql` usando o MySQL Workbench ou outro gerenciador de sua preferência.
 
-### 4. Execute o servidor
-
+### 4. Rodar o servidor
 
 ```bash
 npm run dev
@@ -65,25 +63,23 @@ npm run dev
 
 ### Produtos
 
-- Cadastro de produto (`index.html`)
-- Busca de produto por nome (`buscar.html`)
-- Listagem de produtos cadastrados (`produtos.html`)
+- Cadastro de produtos com nome, preço e vendedor
+- Busca por nome do produto
+- Listagem completa de produtos cadastrados
 
 ### Pessoas
 
-- Cadastro de pessoa com nome, email, senha, telefone e gênero (`pessoa.html`)
-- Listagem automática de pessoas após cadastro
-- ID auto incrementado
+- Cadastro com nome, email, senha, telefone e gênero
+- Listagem automática das pessoas registradas
+- IDs gerados automaticamente
 
 ## Endpoints da API
 
-- `GET /produto`: Retorna todos os produtos
-- `POST /produto`: Cadastra um novo produto
-- `GET /pessoa`: Retorna todas as pessoas
-- `POST /pessoa`: Cadastra uma nova pessoa
+- `GET /produto` – Lista todos os produtos
+- `POST /produto` – Cadastra um novo produto
+- `GET /pessoa` – Lista todas as pessoas
+- `POST /pessoa` – Cadastra uma nova pessoa
 
-## Estilo
+## Visual e Estilo
 
-O estilo segue um padrão **dark mode**, com detalhes em azul para um toque moderno
-
-
+O sistema tem uma interface simples em modo escuro com cores em tons de azul para uma navegação agradável.
