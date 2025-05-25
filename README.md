@@ -34,8 +34,8 @@ Projeto desenvolvido para fins de aprendizado e prática de integração entre f
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/Leonardo-capy/trabai_di_framiuorks-main-main.git
-cd trabai_di_framiuorks-main-main
+git clone https://github.com/Leonardo-capy/trabai_di_framiuork-main-main.git
+cd trabai_di_framiuork-main-main
 ```
 
 ### 2. Instalar as dependências
