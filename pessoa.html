@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Pessoa</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    h1 {
+      color: #4fc3f7;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(79, 195, 247, 0.1);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background-color: #2a2a2a;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      background-color: #333;
+      box-shadow: 0 0 0 2px #4fc3f7;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #4fc3f7;
+      color: #121212;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #039be5;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      font-weight: 600;
+      color: #81c784;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      max-width: 800px;
+      border-collapse: collapse;
+      background-color: #1e1e1e;
+      box-shadow: 0 0 10px rgba(79, 195, 247, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+
+    thead {
+      background-color: #333;
+    }
+
+    th, td {
+      padding: 16px;
+      text-align: left;
+    }
+
+    th {
+      color: #90caf9;
+      font-weight: 600;
+      border-bottom: 1px solid #444;
+    }
+
+    td {
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    tr:hover {
+      background-color: #2a2a2a;
+    }
+
+    a {
+      margin-top: 25px;
+      color: #90caf9;
+      text-decoration: none;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Cadastro de Pessoa</h1>
+
+  <form id="formPessoa">
+    <input type="text" id="nome" placeholder="Nome" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="senha" placeholder="Senha" required><br>
+    <input type="tel" id="telefone" placeholder="Telefone" required><br>
+    <select id="genero" required>
+      <option value="">Selecione o gênero</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Feminino">Feminino</option>
+      <option value="Outro">Outro</option>
+    </select><br>
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Gênero</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaPessoas">
+      <!-- Pessoas serão listadas aqui -->
+    </tbody>
+  </table>
+
+  <br>
+  <a href="index.html">Cadastro de Produto</a>
+  <a href="produtos.html">Ver Produtos</a>
+  <a href="buscar.html">Buscar Produto</a>
+
+  <script>
+    const form = document.getElementById('formPessoa');
+    const mensagem = document.getElementById('mensagem');
+    const tabela = document.getElementById('tabelaPessoas');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const pessoa = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        senha: document.getElementById('senha').value,
+        telefone: document.getElementById('telefone').value,
+        genero: document.getElementById('genero').value
+      };
+
+      try {
+        const res = await fetch('/pessoa', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(pessoa)
+        });
+
+        if (res.ok) {
+          mensagem.textContent = "Pessoa cadastrada com sucesso!";
+          form.reset();
+          carregarPessoas();
+        } else {
+          const erro = await res.json();
+          mensagem.textContent = erro.mensagem || "Erro ao cadastrar.";
+        }
+      } catch (err) {
+        mensagem.textContent = "Erro de rede ou servidor.";
+      }
+    });
+
+    async function carregarPessoas() {
+      try {
+        const res = await fetch('/pessoa');
+        const pessoas = await res.json();
+
+        tabela.innerHTML = '';
+
+        pessoas.forEach(p => {
+          const linha = document.createElement('tr');
+          linha.innerHTML = `
+            <td>${p.id}</td>
+            <td>${p.nome}</td>
+            <td>${p.email}</td>
+            <td>${p.telefone}</td>
+            <td>${p.genero}</td>
+          `;
+          tabela.appendChild(linha);
+        });
+      } catch (err) {
+        mensagem.textContent = "Erro ao carregar pessoas.";
+      }
+    }
+
+    carregarPessoas();
+  </script>
+</body>
+
+</html>

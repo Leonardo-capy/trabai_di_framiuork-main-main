@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buscar Produto</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    h1 {
+      color: #4fc3f7;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(79, 195, 247, 0.1);
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background-color: #2a2a2a;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      background-color: #333;
+      box-shadow: 0 0 0 2px #4fc3f7;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #4fc3f7;
+      color: #121212;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #039be5;
+    }
+
+    table {
+      width: 100%;
+      max-width: 800px;
+      border-collapse: collapse;
+      background-color: #1e1e1e;
+      box-shadow: 0 0 10px rgba(79, 195, 247, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    thead {
+      background-color: #333;
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+    }
+
+    th {
+      color: #90caf9;
+      font-weight: 600;
+      border-bottom: 1px solid #444;
+    }
+
+    td {
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    tr:hover {
+      background-color: #2a2a2a;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      color: #ff6e6e;
+      font-weight: bold;
+    }
+
+    a {
+      margin-top: 25px;
+      color: #90caf9;
+      text-decoration: none;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Buscar Produto</h1>
+  <form id="formBusca">
+    <input type="text" id="buscaNome" placeholder="Digite o nome do produto">
+    <button type="submit">Buscar</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <table id="tabelaResultados">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Vendedor</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+    </tbody>
+  </table>
+
+  <br>
+  <a href="index.html">Voltar ao Cadastro</a>
+
+  <script>
+    document.getElementById('formBusca').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('buscaNome').value.trim();
+      const tabela = document.querySelector('#tabelaResultados tbody');
+      const mensagem = document.getElementById('mensagem');
+      tabela.innerHTML = '';
+      mensagem.textContent = '';
+
+      if (!nome) {
+        mensagem.textContent = "Por favor, digite um nome para buscar.";
+        return;
+      }
+
+      try {
+        const res = await fetch('/produto'); 
+        const produtos = await res.json();
+        const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(nome.toLowerCase()));
+
+        if (filtrados.length === 0) {
+          mensagem.textContent = "Nenhum produto encontrado.";
+          return;
+        }
+
+        filtrados.forEach(prod => {
+          const linha = document.createElement('tr');
+          linha.innerHTML = `
+            <td>${prod.id}</td>
+            <td>${prod.nome}</td>
+            <td>R$ ${parseFloat(prod.preco).toFixed(2)}</td>
+            <td>${prod.vendedor}</td>
+          `;
+          tabela.appendChild(linha);
+        });
+      } catch (err) {
+        mensagem.textContent = "Erro ao buscar produtos.";
+      }
+    });
+  </script>
+</body>
+</html>
